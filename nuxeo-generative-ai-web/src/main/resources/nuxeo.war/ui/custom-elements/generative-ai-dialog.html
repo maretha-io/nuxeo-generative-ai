@@ -108,13 +108,13 @@
                 <template is="dom-if" if="{{!showImage}}">
                     <div>
                         <nuxeo-input value={{prompt}} required="true"
-                                     label="Description" type="text" name="prompt" role="widget" ~></nuxeo-input>
+                                     label="Description" type="text" name="prompt" role="widget">
+						</nuxeo-input>
 
-                        <nuxeo-input value={{imageType}} required="true"
-                                     label="Image type" type="text" name="imageType" role="widget" ~></nuxeo-input>
-
-                        <nuxeo-input value={{exclusion}}
-                                     label="Exclusion" type="text" name="exclusion" role="widget" ~></nuxeo-input>
+						<nuxeo-directory-suggestion value="{{style}}" required="true" role="widget" 
+									 label="Image type" directory-name="VOC_GenAiImageStyle" min-chars="0" 
+									 multiple="true">
+						</nuxeo-directory-suggestion>						 
 
                     </div>
                     <div class="buttons">
@@ -150,13 +150,8 @@
                     type: String,
                 },
 
-                imageType: {
-                    type: String,
-                    value: null
-                },
-
-                exclusion: {
-                    type: String,
+                style: {
+                    type: Array,
                     value: null
                 },
 
@@ -188,8 +183,7 @@
 
             _reset: function () {
                 this.prompt = null;
-                this.imageType = null;
-                this.exclusion = null;
+                this.style = null;
                 this.showImage = false;
                 this.disabled = false;
                 this.disabledButton = false;
@@ -238,7 +232,7 @@
                     this.fire('notify', {message: 'Insert an image description greater than 3 characters'});
                     return;
                 }
-                if (!this.imageType) {
+                if (!this.style || !this.style.length) {
                     this.fire('notify', {message: 'Select an image type'});
                     return;
                 }
@@ -248,8 +242,7 @@
                 operation.input = this.document.uid;
                 operation.params = {
                     prompt: this.prompt,
-                    imageType: this.group,
-                    exclusion: this.exclusion,
+                    style: this.style
                 };
 
                 operation.execute()

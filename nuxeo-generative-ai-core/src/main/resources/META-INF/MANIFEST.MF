@@ -6,5 +6,6 @@ Bundle-Name: nuxeo-generative-ai-core
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.nuxeo.generative.ai.nuxeo-generative-ai-core;singleton=true
 Nuxeo-Component: OSGI-INF/generativeai-service.xml,
-  OSGI-INF/generativeai-operations-contrib.xml
+  OSGI-INF/generativeai-operations-contrib.xml,
+  OSGI-INF/generativeai-voc-contrib.xml
 Manifest-Version: 1.0

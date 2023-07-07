@@ -32,7 +32,9 @@ import org.nuxeo.generative.commons.ProjectConstant;
 import org.nuxeo.runtime.api.Framework;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 @Operation(id = GenerateImageOperation.ID, category = ProjectConstant.CAT_GENERATIVE_AI, label = "Generate an image", description = "Generate an image based on given conditions")
 public class GenerateImageOperation {
@@ -44,17 +46,14 @@ public class GenerateImageOperation {
     @Param(name = "prompt")
     protected String prompt;
 
-    @Param(name = "imageType", required = false)
-    protected String imageType;
-
-    @Param(name = "exclusion", required = false)
-    protected String exclusion;
+    @Param(name = "style", required = false)
+    protected String[] style;
 
     @OperationMethod
     public Blob run() {
         try {
             Blob result = Framework.getService(GenerativeAI.class)
-                                   .generateImage(null, combineParameters(prompt, imageType, exclusion),
+                                   .generateImage(null, combineParameters(prompt, style),
                                            GenerativeAIProvider.IMG_1024);
             if (result != null) {
                 BatchManager bm = Framework.getService(BatchManager.class);
@@ -70,17 +69,15 @@ public class GenerateImageOperation {
         return new StringBlob(messageToJson("No image generated, please try again").toString(), "application/json");
     }
 
-    private String combineParameters(String prompt, String imageType, String exclusion) {
+    private String combineParameters(String prompt, String[] style) {
         // Combine the parameters into a single string
         StringBuilder combined = new StringBuilder();
         if (prompt != null) {
             combined.append(prompt);
         }
-        if (imageType != null) {
-            combined.append(".Image type:").append(imageType);
-        }
-        if (exclusion != null) {
-            combined.append(".Exclude:").append(exclusion);
+        if (style != null) {
+			var styles = Arrays.stream(style).map(x -> x + " style").collect(Collectors.joining(" and "));
+            combined.append(" in a ").append(styles);
         }
         return combined.toString().trim();
     }

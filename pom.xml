@@ -9,7 +9,7 @@
 
   <groupId>org.nuxeo.generative.ai</groupId>
   <artifactId>nuxeo-generative-ai-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>Nuxeo generative ai parent</name>
   <description />
   <packaging>pom</packaging>
