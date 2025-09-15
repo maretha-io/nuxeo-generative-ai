@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>nuxeo-parent</artifactId>
-    <version>2021.37</version>
+    <version>2021.70</version>
   </parent>
 
   <groupId>org.nuxeo.generative.ai</groupId>
@@ -51,7 +51,9 @@
         <artifactId>nuxeo-generative-ai-web</artifactId>
         <version>${project.version}</version>
       </dependency>
+
     </dependencies>
+    
   </dependencyManagement>
 
   <repositories>
